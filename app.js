@@ -1,5 +1,5 @@
 import express from "express"
-
+import cors from 'cors'
 import { configDotenv } from "dotenv"
 configDotenv()
 
@@ -18,6 +18,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(passport.initialize())
+
+app.use(cors({
+    origin: 'http://localhost:5173'
+}))
 
 app.use('/main', mainRouter)
 app.use('/author', authorRouter)
