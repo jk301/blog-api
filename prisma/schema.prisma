@@ -46,6 +46,7 @@ model Comment {
   content String
 
   userId Int? 
+  name String
   user  User?  @relation(fields: [userId], references: [id], onDelete: SetNull)
   postId  Int 
   post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
