@@ -84,7 +84,10 @@ export async function postComment (req, res) {
     }
     
     try {
-        await prisma.comment.create({ data: { content: msgText, userId, postId }})
+        const post = await prisma.user.findUnique({ where: { id: userId } })
+        await prisma.comment.create({ 
+            data: { content: msgText, userId, name: post.username, postId }
+        })
         res.status(201).json({ message: "Comment posted." })
     } catch (error) {
         console.log(error)
