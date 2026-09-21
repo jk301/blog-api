@@ -43,7 +43,28 @@ export function login (req, res) {
     })
 }
 
+export async function get4Posts (req, res) {
+    try {
+        const posts = await prisma.post.findMany({
+            take: 4,
+            orderBy: { createdAt: 'desc' } // newest 
+        })
+        if (!allPost) return res.status(404).json({ error: "Posts are empty." })
+        
+        return res.status(200).json({ posts: posts })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ error: "Something went wrong." })
+    }
+}
+
 export async function getAllPosts (req, res) {
+    const userId = req.user.id
+
+    if (!userId) {
+        return res.status(400).json({ error: "content or identifiers is missing." })
+    }
+
     try {
         const allPost = await prisma.post.findMany()
         if (!allPost) return res.status(404).json({ error: "Posts are empty." })
