@@ -39,7 +39,7 @@ export async function getPosts (req, res) {
     
     try {
         const posts = await prisma.post.findMany({ where: { userId } })
-        return res.status(200).json({ Posts: posts })
+        return res.status(200).json({ posts: posts })
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: "Something went wrong." })
