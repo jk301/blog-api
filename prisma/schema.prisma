@@ -15,11 +15,12 @@ datasource db {
 model User { 
   id    Int     @id @default(autoincrement()) 
   email String  @unique 
-  username  String
+  username  String @unique
   hash String
 
   isAuthor Boolean @default(false)
 
+  @@unique([id, username])
   comments Comment[]
   posts Post[]
 } 
@@ -31,7 +32,8 @@ model Post {
   isPub  Boolean @default(false)
 
   userId Int 
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  username String
+  user  User  @relation(fields: [userId, username], references: [id, username], onDelete: Cascade, onUpdate: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
