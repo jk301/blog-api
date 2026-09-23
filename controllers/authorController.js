@@ -77,7 +77,7 @@ export async function postUnpub (req, res) {
     }
     
     try {
-        await prisma.post.create({ data: { title, content, userId }})
+        await prisma.post.create({ data: { title, content, userId, username: req.user.username }})
         res.status(201).json({ message: "A unpublished post added." })
     } catch (error) {
         console.log(error)
