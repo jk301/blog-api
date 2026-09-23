@@ -13,6 +13,8 @@ export async function register (req, res) {
         })
     }
 
+
+
     try {
         const hashed = await genPass(password)
 
@@ -24,7 +26,16 @@ export async function register (req, res) {
         
     } catch (err) {
         if (err.code === 'P2002') {
-            return res.status(409).json({ error: 'Email is already taken.' })
+            const target = err.meta?.target || []
+
+            if (target.includes('email')) {
+                return res.status(409).json({ error: 'Email is already taken.' })
+            }
+            if (target.includes('username')) {
+                return res.status(409).json({ error: 'Username is already taken. Choose another.' })
+            }
+
+            return res.status(409).json({ error: 'A Unique field is already taken.' })
         }
         console.log(err)
         return res.status(500).json({ error: 'Something went wrong.' })
