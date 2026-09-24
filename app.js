@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(passport.initialize())
 
 app.use(cors({
-    origin: 'https://bloggy-main.netlify.app'
+    origin: ['https://bloggy-main.netlify.app', 'https://bloggy-author.netlify.app']
 }))
 
 app.use('/main', mainRouter)
